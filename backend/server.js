@@ -5,10 +5,10 @@ import cors from 'cors';
 import path from 'path';
 import connectDB from './config/db.js';
 
-import authRoutes from './routes/authRoutes.js';
-import userRoutes from './routes/userRoutes.js';
-import taskRoutes from './routes/taskRoutes.js';
-import reportRoutes from './routes/reportRoutes.js';
+// import authRoutes from './routes/authRoutes.js';
+// import userRoutes from './routes/userRoutes.js';
+// import taskRoutes from './routes/taskRoutes.js';
+// import reportRoutes from './routes/reportRoutes.js';
 
 
 
@@ -30,10 +30,10 @@ connectDB();
 app.use(express.json());
 
 // Routes
-app.use('/api/auth', authRoutes);
-app.use('/api/users', userRoutes);
-app.use('/api/tasks', taskRoutes);
-app.use('/api/reports', reportRoutes);
+// app.use('/api/auth', authRoutes);
+// app.use('/api/users', userRoutes);
+// app.use('/api/tasks', taskRoutes);
+// app.use('/api/reports', reportRoutes);
 
 // Start Server
 const PORT = process.env.PORT || 5000;
