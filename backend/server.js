@@ -23,11 +23,11 @@ const __dirname = dirname(__filename);
 // Middleware to handle CORS
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || '*',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    origin: process.env.CLIENT_URL,
+    credentials: true,
   })
 );
+
 
 // Connect Database
 connectDB();
