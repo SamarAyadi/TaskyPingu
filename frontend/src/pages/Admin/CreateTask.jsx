@@ -95,6 +95,7 @@ const CreateTask = () => {
           completed: matchedTask ? matchedTask.completed : false,
         };
       });
+
       // eslint-disable-next-line no-unused-vars
       const response = await axiosInstance.put(
         API_PATHS.TASKS.UPDATE_TASK(taskId),
@@ -159,6 +160,7 @@ const CreateTask = () => {
       if (response.data) {
         const taskInfo = response.data;
         setCurrentTask(taskInfo);
+
         // eslint-disable-next-line no-unused-vars
         setTaskData((prevState) => ({
           title: taskInfo.title,
@@ -200,7 +202,7 @@ const CreateTask = () => {
     }
 
     return () => {};
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [taskId]);
 
   return (

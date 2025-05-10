@@ -1,14 +1,13 @@
+/* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
-import React from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
+import DashboardLayout from "../../components/layouts/DashboardLayout";
 import { useNavigate } from "react-router-dom";
-import DashboardLayout from "./../../components/layouts/DashboardLayout";
-import { useEffect } from "react";
+import axiosInstance from "../../utils/axiosInstance";
 import { API_PATHS } from "../../utils/apiPaths";
-import axiosInstance from "./../../utils/axiosInstance";
 import { LuFileSpreadsheet } from "react-icons/lu";
-import TaskStatusTabs from "./../../components/TaskStatusTabs";
-import TaskCard from './../../components/Cards/TaskCard';
+import TaskStatusTabs from "../../components/TaskStatusTabs";
+import TaskCard from "../../components/Cards/TaskCard";
 
 const ManageTasks = () => {
   const [allTasks, setAllTasks] = useState([]);
@@ -47,8 +46,28 @@ const ManageTasks = () => {
   const handleClick = (taskData) => {
     navigate(`/admin/create-task`, { state: { taskId: taskData._id } });
   };
+
   // download task report
-  const handleDownloadReport = async () => {};
+  const handleDownloadReport = async () => {
+    try {
+      const response = await axiosInstance.get(API_PATHS.REPORTS.EXPORT_TASKS, {
+        responseType: "blob",
+      });
+
+      // Create a URL for the blob
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "task_details.xlsx");
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Error downloading details:", error);
+      toast.error("Failed to download details. Please try again.");
+    }
+  };
 
   useEffect(() => {
     getAllTasks(filterStatus);
@@ -89,9 +108,8 @@ const ManageTasks = () => {
             </div>
           )}
         </div>
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-          
-          
           {allTasks?.map((item, index) => (
             <TaskCard
               key={item._id}
