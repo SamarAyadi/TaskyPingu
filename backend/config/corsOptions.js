@@ -1,6 +1,7 @@
 const allowedOrigins = [
   'https://tasky-pingu.vercel.app',
-  'http://localhost:3000'
+  'http://localhost:3000',
+  'https://tasky-pingu-2achy0d4m-samar-ayadis-projects.vercel.app'
 ];
 
 export const corsOptions = {
