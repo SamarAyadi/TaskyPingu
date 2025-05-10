@@ -12,8 +12,9 @@ import userRoutes from './routes/userRoutes.js';
 import taskRoutes from './routes/taskRoutes.js';
 import reportRoutes from './routes/reportRoutes.js';
 
-
-
+import { corsOptions } from './config/corsOptions.js';
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 const app = express();
 
 // Create __dirname equivalent in ESM
@@ -23,8 +24,9 @@ const __dirname = dirname(__filename);
 // Middleware to handle CORS
 app.use(
   cors({
-    origin: process.env.CLIENT_URL,
-    credentials: true,
+    origin: process.env.CLIENT_URL || '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
   })
 );
 
