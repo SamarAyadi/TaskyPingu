@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 dotenv.config();
+
 import express from 'express';
 import cors from 'cors';
 import path from 'path';
@@ -12,26 +13,24 @@ import userRoutes from './routes/userRoutes.js';
 import taskRoutes from './routes/taskRoutes.js';
 import reportRoutes from './routes/reportRoutes.js';
 
-import { corsOptions } from './config/corsOptions.js';
-app.use(cors(corsOptions));
-app.options('*', cors(corsOptions));
-const app = express();
-
-// Create __dirname equivalent in ESM
+// __dirname setup for ESM
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// Middleware to handle CORS
+const app = express();
+
+// ✅ Recommended CORS Setup
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || '*',
+    origin: ['https://tasky-pingu.vercel.app'],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
   })
 );
+app.options('*', cors());
 
-
-// Connect Database
+// DB
 connectDB();
 
 // Middleware
@@ -43,10 +42,9 @@ app.use('/api/users', userRoutes);
 app.use('/api/tasks', taskRoutes);
 app.use('/api/reports', reportRoutes);
 
-// Serve uploads folder
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+// Serve static
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-
-// Start Server
+// Start server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
