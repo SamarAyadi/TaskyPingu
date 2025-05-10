@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import multer from 'multer';
 
 // Ensure the uploads directory exists
 const uploadDir = path.join(process.cwd(), 'uploads');
