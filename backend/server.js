@@ -1,6 +1,5 @@
 import dotenv from 'dotenv';
 dotenv.config();
-
 import express from 'express';
 import cors from 'cors';
 import path from 'path';
@@ -12,28 +11,23 @@ import authRoutes from './routes/authRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import taskRoutes from './routes/taskRoutes.js';
 import reportRoutes from './routes/reportRoutes.js';
+import { corsOptions } from './config/corsOptions.js';
 
-// __dirname setup for ESM
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 
 const app = express();
 
-// ✅ Recommended CORS Setup
-app.use(
-  cors({
-    origin: ['https://tasky-pingu.vercel.app'],
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true,
-  })
-);
-app.options('*', cors());
+// Create __dirname equivalent in ESM
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
-// DB
+// ✅ CORS Middleware
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
+
+// Connect Database
 connectDB();
 
-// Middleware
+// Body parser
 app.use(express.json());
 
 // Routes
@@ -42,7 +36,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/tasks', taskRoutes);
 app.use('/api/reports', reportRoutes);
 
-// Serve static
+// Serve uploads
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Start server
