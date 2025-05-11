@@ -4,11 +4,6 @@
   A full-stack task management platform for teams to organize, assign, and track work with ease. Built using the MERN stack and Tailwind CSS.
 </p>
 
-<p align="center">
-  <a href="https://tasky-pingu.vercel.app" target="_blank"><strong>🌐 Live Frontend</strong></a> |
-  <a href="https://taskypingu-production.up.railway.app" target="_blank"><strong>🔗 Backend API</strong></a>
-</p>
-
 ---
 
 ## 🚀 Features
