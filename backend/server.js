@@ -1,49 +1,54 @@
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
+import express from "express";
+import cors from "cors";
+import path from "path";
+import { fileURLToPath } from "url";
+import { swaggerUi, swaggerSpec } from './swagger.js';
+
+// Load environment variables
 dotenv.config();
-import express from 'express';
-import cors from 'cors';
-import path from 'path';
-import connectDB from './config/db.js';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
 
-import authRoutes from './routes/authRoutes.js';
-import userRoutes from './routes/userRoutes.js';
-import taskRoutes from './routes/taskRoutes.js';
-import reportRoutes from './routes/reportRoutes.js';
+// Convert __dirname to work in ESM
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-
+// Import custom modules
+import connectDB from "./config/db.js";
+import authRoutes from "./routes/authRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
+import taskRoutes from "./routes/taskRoutes.js";
+import reportRoutes from "./routes/reportRoutes.js";
 
 const app = express();
 
-// Create __dirname equivalent in ESM
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-// ✅ CORS Middleware
+// Middleware to handle CORS
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || '*',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    origin: process.env.CLIENT_URL || "*",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
-// Connect Database
+// Connect to database
 connectDB();
 
-// Body parser
+// Middleware
 app.use(express.json());
 
 // Routes
-app.use('/api/auth', authRoutes);
-app.use('/api/users', userRoutes);
-app.use('/api/tasks', taskRoutes);
-app.use('/api/reports', reportRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/tasks", taskRoutes);
+app.use("/api/reports", reportRoutes);
 
-// Serve uploads
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+// Serve uploads folder
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// Start server
-const PORT = process.env.PORT || 5000;
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+
+// Start Server
+const PORT = process.env.PORT || 5001;
+
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

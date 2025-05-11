@@ -4,8 +4,50 @@ import { getUsers, getUserById } from "../controllers/userController.js";
 
 const router = express.Router();
 
-// User Management Routes
-router.get("/", protect, adminOnly, getUsers); // Get all users (Admin only)
-router.get("/:id", protect, getUserById); // Get a specific user
+/**
+ * @swagger
+ * tags:
+ *   name: Users
+ *   description: User management (admin only)
+ */
+
+/**
+ * @swagger
+ * /users:
+ *   get:
+ *     summary: Get all users
+ *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: List of users retrieved
+ *       403:
+ *         description: Forbidden - Admins only
+ */
+router.get("/", protect, adminOnly, getUsers);
+
+/**
+ * @swagger
+ * /users/{id}:
+ *   get:
+ *     summary: Get a user by ID
+ *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: User ID
+ *     responses:
+ *       200:
+ *         description: User data retrieved
+ *       404:
+ *         description: User not found
+ */
+router.get("/:id", protect, getUserById);
 
 export default router;
