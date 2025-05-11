@@ -31,7 +31,17 @@
 ---
 
 ---
+## ⚙️ API Documentation
+> TaskyPingu uses Swagger to provide interactive documentation of all backend routes.
+> [text](http://localhost:8000/api-docs/)
 
+---
+You’ll find full documentation for:
+
+- 🔐 **Auth** – Register, login, upload profile image, update profile  
+- 👤 **Users** – Admin-only user management  
+- ✅ **Tasks** – CRUD, status updates, checklist tracking  
+- 📊 **Reports** – Export task/user data as Excel or PDF  
 ## 🙋‍♂️ Author
 
 **Samar Ayadi**  
